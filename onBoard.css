@@ -1,0 +1,71 @@
+.edit-entity-form .mat-mdc-dialog-content {
+    max-height: 80vh !important;
+    padding: 0 !important;
+    width: 60vw;
+    max-width: 810px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .details-section {
+    margin-top: 22px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .section-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.76);
+    min-width: 30%; 
+    margin-top: 18px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .tb-tank-image-container {
+    display: flex;
+    justify-content: center;
+    padding: 19px;
+    border: 1px solid rgba(221, 226, 226, 1);
+    border-radius: 10px;
+    margin-bottom: 21px; 
+}
+
+.edit-entity-form .mat-mdc-dialog-content .details-container {
+    max-height: 55vh;
+    /*overflow-y: auto;*/
+    margin-top: 30px;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .details-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mat-mdc-form-field-error-wrapper {
+    padding: 0;
+}
+
+.box-design {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.box-a {
+  margin-right: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+
+@media (max-width: 599px) {
+    .edit-entity-form .mat-mdc-dialog-content {
+        width: 100vw;
+    }
+}

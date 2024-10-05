@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="onBoard.css">
+</head>
+<body>
+    <form
+  #editEntityForm="ngForm"
+  [formGroup]="editEntityFormGroup"
+  (ngSubmit)="save()"
+  class="edit-entity-form"
+>
+  <mat-toolbar
+    fxLayout="row"
+    style="background-color: transparent; border-bottom: solid 1px #0000001f"
+  >
+    <h2>Add sensor</h2>
+    <span fxFlex></span>
+    <button mat-icon-button (click)="cancel()" type="button">
+      <mat-icon class="material-icons">close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-progress-bar
+    color="warn"
+    mode="indeterminate"
+    *ngIf="isLoading$ | async"
+  >
+  </mat-progress-bar>
+  <div style="height: 4px" *ngIf="!(isLoading$ | async)"></div>
+  <div mat-dialog-content>
+    <mat-stepper
+      *ngIf="editEntityFormGroup"
+      #stepper
+      [linear]="true"
+      animationDuration="500"
+    >
+      <mat-step [stepControl]="editEntityFormGroup.get('general')">
+        <ng-template matStepLabel>General Info</ng-template>
+        <div
+          fxFlex
+          fxLayout="row"
+          fxLayoutGap="8px"
+          fxLayout.xs="column"
+          fxLayoutGap.xs="0"
+          fxLayoutAlign="space-between"
+          style="margin-top: 30px"
+          [formGroup]="editEntityFormGroup.get('general')"
+        >
+          <label class="section-label">General Info</label>
+          <div style="width: 100%" fxLayout="column">
+            <mat-form-field fxFlex class="mat-block">
+              <mat-label>Select Device</mat-label>
+              <mat-select formControlName="entityName" name="entityName">
+                <mat-option *ngIf="onBoardDeviceNames.length === 0" disabled>
+                  No devices available
+                </mat-option>
+                <mat-option
+                  *ngFor="let deviceName of onBoardDeviceNames"
+                  [value]="deviceName"
+                >
+                  {{ deviceName.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="editEntityFormGroup.get('general').get('entityName').hasError('required')"
+              >
+                Device selection is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex class="mat-block">
+              <mat-label>Device Name</mat-label>
+              <input matInput formControlName="entityLabel" required />
+              <mat-error
+                *ngIf="editEntityFormGroup.get('general').get('entityLabel').hasError('required')"
+              >
+                Sensor label is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end center">
+          <button
+            mat-button
+            color="primary"
+            type="button"
+            [disabled]="(isLoading$ | async)"
+            (click)="cancel()"
+            cdkFocusInitial
+          >
+            Cancel
+          </button>
+          <button
+            mat-button
+            mat-raised-button
+            color="primary"
+            matStepperNext
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="editEntityFormGroup.get('details')">
+        <ng-template matStepLabel>Sensor info</ng-template>
+
+        <div class="box-design">
+          <label class="container box-a">
+            Channel: 1
+            <input type="checkbox" (change)="handleCheckboxChange('one')" />
+          </label>
+
+          <label class="container box-a">
+            Channel: 2
+            <input type="checkbox" (change)="handleCheckboxChange('two')" />
+          </label>
+
+          <label class="container box-a">
+            Channel: 3
+            <input type="checkbox" (change)="handleCheckboxChange('three')" />
+          </label>
+
+          <label class="container box-a">
+            Channel: 4
+            <input type="checkbox" (change)="handleCheckboxChange('four')" />
+          </label>
+        </div>
+
+        <div *ngIf="!checkboxOneChecked">
+          <div
+            fxFlex
+            fxLayout="column"
+            fxLayoutGap="8px"
+            formGroupName="details"
+            class="details-container"
+          >
+            <div
+              fxFlex
+              fxLayout="row"
+              fxLayoutGap="8px"
+              fxLayout.xs="column"
+              fxLayoutGap.xs="0"
+              fxLayoutAlign="space-between"
+            >
+              <label class="section-label">Sensor Info 1</label>
+              <div style="width: 100%; max-width: 520px" fxLayout="column">
+                <div
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Type</mat-label>
+                    <mat-select
+                      formControlName="ch1SensorType"
+                      name="ch1SensorType"
+                    >
+                      <mat-option
+                        *ngFor="let measurementSystem of measurementSystems | keyvalue"
+                        [value]="measurementSystem.value"
+                      >
+                        {{ measurementSystem.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch1SensorType').hasError('required')"
+                    >
+                      Sensor Type is required.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Label</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch1SensorLabel"
+                      name="ch1SensorLabel"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch1SensorLabel').hasError('required')"
+                    >
+                      Sensor Label is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch1SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <mat-select
+                      formControlName="ch1SensorName"
+                      name="ch1SensorName"
+                    >
+                      <mat-option
+                        *ngFor="let selectedSensorNames of selectedSensorName1 | keyvalue"
+                        [value]="selectedSensorNames.value"
+                        >{{ selectedSensorNames.value }}</mat-option
+                      >
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch1SensorName').hasError('required')"
+                    >
+                      Sensor Name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch1SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <mat-select formControlName="ch1Unit" name="ch1Unit">
+                      <mat-option
+                        *ngFor="let readingUnit of readingUnits1 | keyvalue"
+                        [value]="readingUnit.value"
+                      >
+                        {{ readingUnit.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch1Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch1SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch1SensorName"
+                      name="ch1SensorName"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch1SensorName').hasError('required')"
+                    >
+                      Sensor Name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch1SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch1Unit"
+                      name="ch1Unit"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch1Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div style="width: 100%" fxLayout="column">
+                  <div
+                    fxFlex
+                    fxLayout="row"
+                    fxLayoutGap="8px"
+                    fxLayout.xs="column"
+                    fxLayoutGap.xs="0"
+                    fxLayoutAlign="space-between"
+                  >
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Minimum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch1MinValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch1MinValue').hasError('required')"
+                      >
+                        Min value is required.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch1MinValue').hasError('greaterThanMax')"
+                      >
+                        Min value cannot be greater than Max value.
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Maximum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch1MaxValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch1MaxValue').hasError('required')"
+                      >
+                        Max value is required.
+                      </mat-error>
+                    </mat-form-field>
+                    <br /><br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!checkboxTwoChecked">
+          <ng-template matStepLabel>Sensor info 2</ng-template>
+          <div
+            fxFlex
+            fxLayout="column"
+            fxLayoutGap="8px"
+            formGroupName="details"
+            class="details-container"
+          >
+            <div
+              fxFlex
+              fxLayout="row"
+              fxLayoutGap="8px"
+              fxLayout.xs="column"
+              fxLayoutGap.xs="0"
+              fxLayoutAlign="space-between"
+            >
+              <label class="section-label">Sensor Info 2</label>
+              <div style="width: 100%; max-width: 520px" fxLayout="column">
+                <div
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Type</mat-label>
+                    <mat-select
+                      formControlName="ch2SensorType"
+                      name="ch2SensorType"
+                    >
+                      <mat-option
+                        *ngFor="let measurementSystem of measurementSystems | keyvalue"
+                        [value]="measurementSystem.value"
+                      >
+                        {{ measurementSystem.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch2SensorType').hasError('required')"
+                    >
+                      Sensor Type is required.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Label</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch2SensorLabel"
+                      name="ch2SensorLabel"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch2SensorLabel').hasError('required')"
+                    >
+                      Sensor Label is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div
+                  *ngIf="editEntityFormGroup.get('details').value"
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch2SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <mat-select
+                      formControlName="ch2SensorName"
+                      name="ch2SensorName"
+                    >
+                      <mat-option
+                        *ngFor="let selectedSensorNames of selectedSensorName2 | keyvalue"
+                        [value]="selectedSensorNames.value"
+                        >{{ selectedSensorNames.value }}</mat-option
+                      >
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch2SensorName').hasError('required')"
+                    >
+                      Sensor Name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch2SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <mat-select formControlName="ch2Unit" name="ch2Unit">
+                      <mat-option
+                        *ngFor="let readingUnit of readingUnits2 | keyvalue"
+                        [value]="readingUnit.value"
+                      >
+                        {{ readingUnit.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch2Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch2SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch2SensorName"
+                      name="ch2SensorName"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch2SensorName').hasError('required')"
+                    >
+                      Sensor Name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch2SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch2Unit"
+                      name="ch2Unit"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch2Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div style="width: 100%" fxLayout="column">
+                  <div
+                    fxFlex
+                    fxLayout="row"
+                    fxLayoutGap="8px"
+                    fxLayout.xs="column"
+                    fxLayoutGap.xs="0"
+                    fxLayoutAlign="space-between"
+                  >
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Minimum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch2MinValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch2MinValue').hasError('required')"
+                      >
+                        Min value is required.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch2MinValue').hasError('greaterThanMax')"
+                      >
+                        Min value cannot be greater than Max value.
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Maximum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch2MaxValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch2MaxValue').hasError('required')"
+                      >
+                        Max value is required.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!checkboxThreeChecked">
+          <ng-template matStepLabel>Sensor info 3</ng-template>
+          <div
+            fxFlex
+            fxLayout="column"
+            fxLayoutGap="8px"
+            formGroupName="details"
+            class="details-container"
+          >
+            <div
+              fxFlex
+              fxLayout="row"
+              fxLayoutGap="8px"
+              fxLayout.xs="column"
+              fxLayoutGap.xs="0"
+              fxLayoutAlign="space-between"
+            >
+              <label class="section-label">Sensor Info 3</label>
+              <div style="width: 100%; max-width: 520px" fxLayout="column">
+                <div
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Type</mat-label>
+                    <mat-select
+                      formControlName="ch3SensorType"
+                      name="ch3SensorType"
+                    >
+                      <mat-option
+                        *ngFor="let measurementSystem of measurementSystems | keyvalue"
+                        [value]="measurementSystem.value"
+                      >
+                        {{ measurementSystem.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch3SensorType').hasError('required')"
+                    >
+                      Sensor Type is required.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Label</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch3SensorLabel"
+                      name="ch3SensorLabel"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch3SensorLabel').hasError('required')"
+                    >
+                      Sensor Label is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div
+                  *ngIf="editEntityFormGroup.get('details').value"
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch3SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <mat-select
+                      formControlName="ch3SensorName"
+                      name="ch3SensorName"
+                    >
+                      <mat-option
+                        *ngFor="let selectedSensorNames of selectedSensorName3 | keyvalue"
+                        [value]="selectedSensorNames.value"
+                        >{{ selectedSensorNames.value }}</mat-option
+                      >
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch3SensorName').hasError('required')"
+                    >
+                      Sensor name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch3SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <mat-select formControlName="ch3Unit" name="ch3Unit">
+                      <mat-option
+                        *ngFor="let readingUnit of readingUnits3 | keyvalue"
+                        [value]="readingUnit.value"
+                      >
+                        {{ readingUnit.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch3Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch3SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch3SensorName"
+                      name="ch3SensorName"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch3SensorName').hasError('required')"
+                    >
+                      Sensor Name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch3SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch3Unit"
+                      name="ch3Unit"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch3Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div style="width: 100%" fxLayout="column">
+                  <div
+                    fxFlex
+                    fxLayout="row"
+                    fxLayoutGap="8px"
+                    fxLayout.xs="column"
+                    fxLayoutGap.xs="0"
+                    fxLayoutAlign="space-between"
+                  >
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Minimum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch3MinValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch3MinValue').hasError('required')"
+                      >
+                        Min value is required.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch3MinValue').hasError('greaterThanMax')"
+                      >
+                        Min value cannot be greater than Max value.
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Maximum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch3MaxValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch3MaxValue').hasError('required')"
+                      >
+                        Max value is required.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!checkboxFourChecked">
+          <ng-template matStepLabel>Sensor info 4</ng-template>
+          <div
+            fxFlex
+            fxLayout="column"
+            fxLayoutGap="8px"
+            formGroupName="details"
+            class="details-container"
+          >
+            <div
+              fxFlex
+              fxLayout="row"
+              fxLayoutGap="8px"
+              fxLayout.xs="column"
+              fxLayoutGap.xs="0"
+              fxLayoutAlign="space-between"
+            >
+              <label class="section-label">Sensor Info 4</label>
+              <div style="width: 100%; max-width: 520px" fxLayout="column">
+                <div
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Type</mat-label>
+                    <mat-select
+                      formControlName="ch4SensorType"
+                      name="ch4SensorType"
+                    >
+                      <mat-option
+                        *ngFor="let measurementSystem of measurementSystems | keyvalue"
+                        [value]="measurementSystem.value"
+                      >
+                        {{ measurementSystem.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch4SensorType').hasError('required')"
+                    >
+                      Sensor type is required.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex class="mat-block">
+                    <mat-label>Sensor Label</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch4SensorLabel"
+                      name="ch4SensorLabel"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch4SensorLabel').hasError('required')"
+                    >
+                      Sensor Label is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div
+                  *ngIf="editEntityFormGroup.get('details').value"
+                  fxFlex
+                  fxLayout="row"
+                  fxLayoutGap="8px"
+                  fxLayout.xs="row"
+                  fxLayoutGap.xs="0"
+                  fxLayoutAlign="space-between"
+                >
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch4SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <mat-select
+                      formControlName="ch4SensorName"
+                      name="ch4SensorName"
+                    >
+                      <mat-option
+                        *ngFor="let selectedSensorNames of selectedSensorName4 | keyvalue"
+                        [value]="selectedSensorNames.value"
+                        >{{ selectedSensorNames.value }}</mat-option
+                      >
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch4SensorName').hasError('required')"
+                    >
+                      Sensor name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch4SensorType').value !== 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <mat-select formControlName="ch4Unit" name="ch4Unit">
+                      <mat-option
+                        *ngFor="let readingUnit of readingUnits4 | keyvalue"
+                        [value]="readingUnit.value"
+                      >
+                        {{ readingUnit.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch4Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch4SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor Name</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch4SensorName"
+                      name="ch4SensorName"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch4SensorName').hasError('required')"
+                    >
+                      Sensor Name is required.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field
+                    fxFlex
+                    class="mat-block"
+                    *ngIf="editEntityFormGroup.get('details').get('ch4SensorType').value === 'Other'"
+                  >
+                    <mat-label>Sensor reading units</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ch4Unit"
+                      name="ch4Unit"
+                    />
+                    <mat-error
+                      *ngIf="editEntityFormGroup.get('details').get('ch4Unit').hasError('required')"
+                    >
+                      Sensor unit is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div style="width: 100%" fxLayout="column">
+                  <div
+                    fxFlex
+                    fxLayout="row"
+                    fxLayoutGap="8px"
+                    fxLayout.xs="column"
+                    fxLayoutGap.xs="0"
+                    fxLayoutAlign="space-between"
+                  >
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Minimum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch4MinValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch4MinValue').hasError('required')"
+                      >
+                        Min value is required.
+                      </mat-error>
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch4MinValue').hasError('greaterThanMax')"
+                      >
+                        Min value cannot be greater than Max value.
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex class="mat-block">
+                      <mat-label>Maximum Value</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="ch4MaxValue"
+                      />
+                      <mat-error
+                        *ngIf="editEntityFormGroup.get('details').get('ch4MaxValue').hasError('required')"
+                      >
+                        Max value is required.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <button mat-button color="primary" matStepperPrevious type="button">
+            Back
+          </button>
+          <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end center">
+            <button
+              mat-button
+              mat-raised-button
+              color="primary"
+              matStepperNext
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Set location (optional)</ng-template>
+        <div
+          fxFlex
+          fxLayout="column"
+          fxLayoutGap="16px"
+          style="margin-top: 30px; margin-bottom: 16px"
+          [formGroup]="editEntityFormGroup.get('location')"
+        >
+          <section *ngIf="!!entityId">
+            <tb-dashboard-state
+              style="height: 550px; width: 100%"
+              [ctx]="widgetContext"
+              stateId="set-location"
+              [entityId]="entityId"
+            >
+            </tb-dashboard-state>
+          </section>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <button mat-button color="primary" matStepperPrevious type="button">
+            Back
+          </button>
+          <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end center">
+            <button
+              mat-button
+              color="primary"
+              type="button"
+              [disabled]="(isLoading$ | async)"
+              (click)="cancel()"
+              cdkFocusInitial
+            >
+              Cancel
+            </button>
+            <button
+              mat-button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="(isLoading$ | async)"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</form>
+<script src="onBoard.js "></script>
+</body>
+<style>
+    .edit-entity-form .mat-mdc-dialog-content {
+    max-height: 80vh !important;
+    padding: 0 !important;
+    width: 60vw;
+    max-width: 810px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .details-section {
+    margin-top: 22px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .section-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.76);
+    min-width: 30%; 
+    margin-top: 18px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .tb-tank-image-container {
+    display: flex;
+    justify-content: center;
+    padding: 19px;
+    border: 1px solid rgba(221, 226, 226, 1);
+    border-radius: 10px;
+    margin-bottom: 21px; 
+}
+
+.edit-entity-form .mat-mdc-dialog-content .details-container {
+    max-height: 55vh;
+    /*overflow-y: auto;*/
+    margin-top: 30px;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+
+.edit-entity-form .mat-mdc-dialog-content .details-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mat-mdc-form-field-error-wrapper {
+    padding: 0;
+}
+
+.box-design {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.box-a {
+  margin-right: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+
+@media (max-width: 599px) {
+    .edit-entity-form .mat-mdc-dialog-content {
+        width: 100vw;
+    }
+}
+</style>
+</html>
