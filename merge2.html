@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge</title>
+    <style>
+        /* Container occupying 25% of the viewport */
+        .AllBoxes {
+            display: flex;
+            justify-content: space-between;
+            width: 25vw;  /* 25% of the viewport width */
+            height: 25vh; /* 25% of the viewport height */
+            margin: auto;
+            padding: 1%; /* Small padding inside the container */
+            box-sizing: border-box;
+            flex-direction: column; /* Flex column direction to stack cards vertically */
+        }
+
+        /* Card styling */
+        .card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5%; /* Small margin between cards */
+            padding: 1%;
+            box-sizing: border-box;
+            border: 1px solid #ccc; /* Light border for separation */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        /* Content within each card */
+        .card .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Value styling */
+        .card .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            line-height: 1.5;
+            color: #333333;
+            text-align: center;
+        }
+
+        /* Description styling */
+        .card .description {
+            font-size: 1em;
+            font-weight: normal;
+            line-height: 1.5;
+            color: #333333;
+            text-align: center;
+        }
+
+        /* Active devices in green */
+        #activeDevicesValue {
+            color: green;
+        }
+
+        /* Inactive devices in red */
+        #inactiveDevicesValue {
+            color: red;
+        }
+
+        /* Media query for medium-sized screens */
+        @media (min-width: 960px) and (max-width: 1200px) {
+            .card .value {
+                font-size: 1.2em;
+                line-height: 1;
+            }
+            
+            .card .description {
+                font-size: 0.8em;
+                line-height: 1;
+            }
+
+            .description {
+                overflow-wrap: break-word;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="AllBoxes" id="Main">
+        <div class='card' id="totalDevices">
+            <div class='content'>
+                <div class='value' id="totalDevicesValue">
+                    ${totalDevicesNumber:0}
+                </div> 
+                <div class='description'>
+                    Total devices
+                </div>
+            </div>
+        </div>
+        <div class='card' id="activeDevices'>
+            <div class='content'>
+                <div class='value' id="activeDevicesValue'>
+                    ${activeDevicesNumber:0}
+                </div> 
+                <div class='description'>
+                    Active devices
+                </div>
+            </div>
+        </div>
+        <div class='card' id="inactiveDevices'>
+            <div class='content'>
+                <div class='value' id="inactiveDevicesValue'>
+                    ${inactiveDevicesNumber:0}
+                </div> 
+                <div class='description'>
+                    Inactive devices
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

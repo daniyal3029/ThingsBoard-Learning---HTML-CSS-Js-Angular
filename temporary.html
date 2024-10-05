@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 85%;
+            padding: 10px;
+            box-sizing: border-box;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            height: 50%;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 100px;
+            min-height: 100px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+
+        .card-description {
+            font-size: 1em;
+            margin: 5px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+        }
+
+        .led {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-top: 15%;
+            background-color: gray;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            transition: background-color 0.3s, width 0.3s, height 0.3s;
+        }
+
+        @media screen and (max-width: 360px) {
+            .card {
+                padding: 3px;
+                min-width: 60px;
+                min-height: 60px;
+            }
+            .card-description {
+                font-size: 0.7em;
+            }
+            .led {
+                width: 50px;
+                height: 50px;
+            }
+            .content
+            {
+                height: 55%;
+            }
+        }
+
+        @media screen and (min-width: 361px) and (max-width: 480px) {
+            .card {
+                padding: 5px;
+                min-width: 80px;
+                min-height: 80px;
+            }
+            .card-description {
+                font-size: 0.8em;
+                margin-top: 20px;
+            }
+            .led {
+                width: 70px;
+                height: 70px;
+            }
+            .content
+            {
+                height: 70%;
+            }
+        }
+
+        @media screen and (min-width: 481px) and (max-width: 768px) {
+            .card {
+                padding: 10px;
+                min-width: 100px;
+                min-height: 100px;
+            }
+            .card-description {
+                font-size: 0.9em;
+            }
+            .led {
+                width: 70px;
+                height: 70px;
+            }
+            .content
+            {
+                height: 70%;
+            }
+        }
+
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .card {
+                padding: 15px;
+                min-width: 120px;
+                min-height: 120px;
+            }
+            .card-description {
+                font-size: 1em;
+            }
+            .led {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            .card {
+                padding: 20px;
+                min-width: 140px;
+                min-height: 140px;
+            }
+            .card-description {
+                font-size: 1.1em;
+            }
+            .led {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media screen and (max-height: 300px) {
+            .card-description {
+                top: 2px;
+            }
+            .led {
+                margin-top: 20px;
+            }
+        }
+
+        @media screen and (min-height: 301px) and (max-height: 440px) {
+            .card-description {
+                top: 5px;
+            }
+            .led {
+                margin-top: 30px;
+            }
+        }
+
+        @media screen and (min-height: 441px) and (max-height: 600px) {
+            .card-description {
+                top: 10px;
+            }
+            .led {
+                margin-top: 25px;
+            }
+        }
+
+        @media screen and (min-height: 601px) and (max-height: 800px) {
+            .card-description {
+                top: 15px;
+            }
+            .led {
+                margin-top: 20px;
+            }
+        }
+
+        @media screen and (min-height: 801px) {
+            .card-description {
+                top: 15px;
+            }
+            .led {
+                margin-top: 20px;
+            }
+        }
+        @media screen and (max-height: 301px) and (max-height: 440px) {
+            .card-description {
+                font-size: 0.6em;
+            }
+            .led {
+                margin-top: 30px;
+                width: 35px;
+                height: 35px;
+            }
+        }
+        @media screen and (max-height: 490px) and (min-height: 441px) {
+    .card-description {
+        font-size: 0.7em;
+    }
+    .led {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media screen and (max-height: 440px) and (min-height: 301px) {
+    .card-description {
+        font-size: 0.6em;
+    }
+    .led {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="card-row">
+            <div class="card" id="card1">
+                <div class="card-description">Phase Error</div>
+                <div class="led" id="led1"></div>
+            </div>
+            <div class="card" id="card2">
+                <div class="card-description">Trip</div>
+                <div class="led" id="led2"></div>
+            </div>
+            <div class="card" id="card3">
+                <div class="card-description">Electricity</div>
+                <div class="led" id="led3"></div>
+            </div>
+        </div>
+        <div class="card-row">
+            <div class="card" id="card4">
+                <div class="card-description">Voltage Error</div>
+                <div class="led" id="led4"></div>
+            </div>
+            <div class="card" id="card5">
+                <div class="card-description">Under Maintenance</div>
+                <div class="led" id="led5"></div>
+            </div>
+            <div class="card" id="card6">
+                <div class="card-description">Motor Run</div>
+                <div class="led" id="led6"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="nav-bar">
+    <div class="card" id="home">
+        <div class="content">
+            <div class="icon"><i class="fas fa-home"></i></div>
+            <div class="description">Home</div>
+        </div>
+    </div>
+    <div class="card" id="statistic">
+        <div class="content">
+            <div class="icon"><i class="fas fa-chart-bar"></i></div>
+            <div class="description">Statistic</div>
+        </div>
+    </div>
+    <div class="card" id="devices">
+        <div class="content">
+            <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+            <div class="description">Devices</div>
+        </div>
+    </div>
+    <div class="card" id="department">
+        <div class="content">
+            <div class="icon"><i class="fas fa-building"></i></div>
+            <div class="description">Department</div>
+        </div>
+    </div>
+    <div class="card" id="alarms">
+        <div class="content">
+            <div class="icon"><i class="fas fa-bell"></i></div>
+            <div class="description">Alarms</div>
+        </div>
+    </div>
+    <div class="card" id="settings">
+        <div class="content">
+            <div class="icon"><i class="fas fa-cog"></i></div>
+            <div class="description">Settings</div>
+        </div>
+    </div>
+</div>
+<style>
+body {
+    margin: 0; 
+    padding: 0; /*both zero to display it full screen properly*/
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100vh; /*to make the content center*/
+    background-color: rgba(29,157,230);
+    opacity: 0.88;
+}
+.icon, .description {
+  text-align: center;
+}
+.nav-bar
+{
+    display: flex; /*to arrange its items centered */
+    justify-content: center; /*managing all content in center*/
+    align-items: center; /*alligning items in center*/
+    flex-direction: row; /*making the list horizontal*/
+    width:100%; /*setting the width for it */
+    background-color: rgb(29,157,230); /*setting the color*/
+    padding: 10px 0;
+    border-radius: 5%;
+    opacity: 0.88;
+}
+.card {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: background-color 0.5s;
+    background-color: rgba(29,157,230,0.88);
+    cursor: pointer;
+}
+
+.card:hover {
+    background-color: #ddd;
+}
+
+.icon {
+    font-size: 22px; /* Increased size for icons */
+    color: white; /* Changed to black */
+    margin-bottom: 5px;
+}
+
+.description {
+    font-size: 0.5em; /* Reduced size for description */
+    font-weight: normal;
+    color: white; /* Changed to black */
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bolder;
+}
+</style>
+</body>
+</html>

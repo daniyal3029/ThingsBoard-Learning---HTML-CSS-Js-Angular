@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Dashboard</title>
+    <style>
+       .container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    gap: 10px;
+    padding: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.body {
+    overflow-x: hidden;
+}
+
+.card {
+    flex: 1 0; /* Each card can grow and shrink but start at 300px */
+    border: 1px solid #ccc;
+    width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.value {
+    font-size: 2em; /* Large text for values */
+    color: black; /* Default color, can be overridden */
+    font-weight: bold;
+}
+
+.description {
+    font-size: 1em;
+    color: gray;
+}
+
+@media screen and (max-width: 950px) {
+    .value {
+        font-size: 2em; /* Smaller font size on smaller screens */
+    }
+    .card {
+        padding: 20px;
+        width: 280px;
+        flex: 1 1;
+    }
+    .description {
+        font-size: 1em;
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .value {
+        font-size: 1.5em; /* Smaller font size on smaller screens */
+    }
+    .card {
+        padding: 12px;
+        width: 120px;
+        flex: 1 1;
+    }
+    .description {
+        font-size: 0.8em;
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .value {
+        font-size: 1.5em; /* Smaller font size on smaller screens */
+    }
+    .card {
+        padding: 12px;
+        width: 100px;
+        flex: 1 1;
+    }
+    .description {
+        font-size: 0.8em;
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+@media screen and (max-width: 470px) {
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    .card {
+        width: calc(33.3333% - 20px);
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+@media screen and (max-width: 670px) {
+    .card {
+        width: calc(33.3333% - 20px);
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    .card {
+        width: calc(33.3333% - 20px);
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+@media screen and (max-width: 870px) {
+    .card {
+        width: calc(33.3333% - 20px);
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+@media screen and (max-width: 970px) {
+    .card {
+        width: calc(33.3333% - 20px);
+    }
+    .container
+    {
+        width: 98%;
+        gap: 2px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="totalDevices">
+            <div class="content">
+                <div class="column">
+                    <div class="value">12</div>
+                    <div class="description">Total devices</div>
+                </div>
+            </div>
+        </div>
+        <div class="card" id="activeDevices">
+            <div class="content">
+                <div class="column">
+                    <div class="value" style='color: green;'>1</div>
+                    <div class="description">Active devices</div>
+                </div>
+            </div>
+        </div>
+        <div class="card" id="inactiveDevices">
+            <div class="content">
+                <div class="column">
+                    <div class="value" style="color: red;">11</div>
+                    <div class="description">Inactive devices</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
