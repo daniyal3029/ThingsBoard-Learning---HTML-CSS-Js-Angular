@@ -43,7 +43,7 @@ To create custom widgets for visualizing your data:
 Conclusion
 ThingsBoard provides a robust framework for managing IoT devices and visualizing their data in real-time. Its flexibility and extensibility make it a powerful choice for IoT applications.
 
-For more details, visit the official ThingsBoard documentation.
+For more details, visit the official ThingsBoard documentation: https://thingsboard.io/docs/
 
 ### Custom Widgets in this Repository
 This repository features custom Angular widgets for ThingsBoard, created during my EPTeck internship. Explore real-time IoT data visualization!
