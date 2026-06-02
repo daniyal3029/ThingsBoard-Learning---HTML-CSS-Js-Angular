@@ -47,3 +47,12 @@ For more details, visit the official ThingsBoard documentation: https://thingsbo
 
 ### Custom Widgets in this Repository
 This repository features custom Angular widgets for ThingsBoard, created during my EPTeck internship. Explore real-time IoT data visualization!
+
+### Usage Examples
+To use the custom widgets in this repository, follow these steps:
+1. Clone this repository.
+2. Import the widgets into your ThingsBoard instance.
+3. Configure the widgets to display data from your devices.
+
+### Contributing
+If you'd like to contribute to this repository, please submit a pull request with your changes.
