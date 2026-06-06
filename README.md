@@ -56,3 +56,6 @@ To use the custom widgets in this repository, follow these steps:
 
 ### Contributing
 If you'd like to contribute to this repository, please submit a pull request with your changes.
+
+### License
+This repository is licensed under the MIT License. See LICENSE for details.
