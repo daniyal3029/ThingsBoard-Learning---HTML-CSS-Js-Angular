@@ -55,7 +55,7 @@ To use the custom widgets in this repository, follow these steps:
 3. Configure the widgets to display data from your devices.
 
 ### Contributing
-If you'd like to contribute to this repository, please submit a pull request with your changes and include a brief description of the changes you made. Please ensure that your code is well-documented and follows standard professional guidelines.
+If you'd like to contribute to this repository, please submit a pull request with your changes and include a brief description of the changes you made. Please ensure that your code is well-documented and follows standard professional guidelines. Additionally, please include example use cases or screenshots of your custom widgets in action, if applicable.
 
 ### License
 This repository is licensed under the MIT License. See LICENSE for details.
