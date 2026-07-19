@@ -58,7 +58,8 @@ To use the custom widgets in this repository, follow these steps:
 If you'd like to contribute to this repository, please submit a pull request with your changes and include a brief description of the changes you made. Please ensure that your code is well-documented and follows standard professional guidelines. Additionally, please include example use cases or screenshots of your custom widgets in action, if applicable. Please also ensure to include proper commit messages and follow standard commit message guidelines.
 
 ### License
-This repository is licensed under the MIT License. See LICENSE for details.
+This repository is licensed under the Apache License 2.0. You can find the full license text in the LICENSE file.
 
 ### Badges
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![ThingsBoard](https://img.shields.io/badge/ThingsBoard-Open%20Source%20IoT%20Platform-blue.svg)](https://thingsboard.io/)
