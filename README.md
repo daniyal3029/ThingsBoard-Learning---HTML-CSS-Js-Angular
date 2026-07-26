@@ -58,13 +58,15 @@ To use the custom widgets in this repository, follow these steps:
 If you'd like to contribute to this repository, please submit a pull request with your changes and include a brief description of the changes you made. Please ensure that your code is well-documented and follows standard professional guidelines. Additionally, please include example use cases or screenshots of your custom widgets in action, if applicable. Please also ensure to include proper commit messages and follow standard commit message guidelines.
 
 ### License
-This repository is licensed under the MIT License.
+This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ### Table of Contents
-1. [Introduction](#thingsboard-overview)
-2. [Getting Started](#getting-started)
-3. [Creating Custom Widgets](#creating-custom-widgets)
-4. [Custom Widgets in this Repository](#custom-widgets-in-this-repository)
-5. [Usage Examples](#usage-examples)
-6. [Contributing](#contributing)
-7. [License](#license)
+* [ThingsBoard Overview](#thingsboard-overview)
+* [Key Features](#key-features)
+* [Getting Started](#getting-started)
+* [Creating Custom Widgets](#creating-custom-widgets)
+* [Conclusion](#conclusion)
+* [Custom Widgets in this Repository](#custom-widgets-in-this-repository)
+* [Usage Examples](#usage-examples)
+* [Contributing](#contributing)
+* [License](#license)
