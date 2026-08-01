@@ -58,7 +58,12 @@ To use the custom widgets in this repository, follow these steps:
 If you'd like to contribute to this repository, please submit a pull request with your changes and include a brief description of the changes you made. Please ensure that your code is well-documented and follows standard professional guidelines. Additionally, please include example use cases or screenshots of your custom widgets in action, if applicable. Please also ensure to include proper commit messages and follow standard commit message guidelines.
 
 ### License
-This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This repository is licensed under the MIT License. See LICENSE for details.
+
+### Badges
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![ThingsBoard](https://img.shields.io/badge/ThingsBoard-ThingsBoard-orange.svg)](https://thingsboard.io/)
+[![Angular](https://img.shields.io/badge/Angular-Angular-red.svg)](https://angular.io/)
 
 ### Table of Contents
 * [ThingsBoard Overview](#thingsboard-overview)
@@ -70,3 +75,4 @@ This repository is licensed under the MIT License. See [LICENSE](LICENSE) for de
 * [Usage Examples](#usage-examples)
 * [Contributing](#contributing)
 * [License](#license)
+* [Badges](#badges)
